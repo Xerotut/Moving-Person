@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MovingPerson
 {
-    public class IsGroundedRB : MonoBehaviour
+    public class IsGroundedManager : MonoBehaviour
     {
         [SerializeField] private Collider _groundCheck;
 
