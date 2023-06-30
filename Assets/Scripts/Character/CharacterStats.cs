@@ -10,6 +10,10 @@ namespace MovingPerson
 
         [field: SerializeField] public float MaxSpeed {get; private set;}
         [field: Range(0f, 1f)][field: SerializeField] public float RotationSpeed {get; private set;}
+        [field: Range(0f, 2f)][field: SerializeField] public float AirMaxSpeedMultiplier { get; private set; }
+        [field: SerializeField] public float JumpForce { get; private set; }
+        [field: SerializeField] public float Gravity { get; private set; }
+
 
     }
 }

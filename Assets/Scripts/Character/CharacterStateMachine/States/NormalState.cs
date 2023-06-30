@@ -5,58 +5,54 @@ using UnityEngine;
 
 namespace MovingPerson
 {
-    public class NormalState : State
+    public class NormalState : BaseCharacterState
     {
 
 
-        private readonly Action<Vector3, float, bool> Move;
-        private readonly Action<Vector3, float> Rotate;
-        private readonly float _moveSpeed;
-        private readonly float _rotationSpeed;
+      
+
+        private const float DOWNWARD_FORCE = -0.05f;
 
         private Vector3 _direction;
-        private bool _wantsToJump;
+        private Vector3 _rotationDirection;
 
-        public NormalState(Action<Vector3, float, bool> HandleMoveEvent, Action<Vector3, float> HandleRotationEvent, float moveSpeed, float rotationSpeed)
-        {
-            Move += HandleMoveEvent;
-            Rotate += HandleRotationEvent;
-            _moveSpeed = moveSpeed;
-            _rotationSpeed = rotationSpeed;
-        }
+        public NormalState(Action<Vector3, float> HandleMoveEvent, Action<Vector3, float> HandleRotationEvent,
+            Action<float> HandleJumpEvent, float moveSpeed, float rotationSpeed, float jumpForce) :
+            base(HandleMoveEvent, HandleRotationEvent, HandleJumpEvent, moveSpeed, rotationSpeed, jumpForce) { }
+        
 
-        public override void Enter()
-        {
-            base.Enter();
-            InputReader.OnMove += SetDir;
-            InputReader.OnJump += SetJump;
-        }
+     
 
         public override void UpdateState()
         {
-            Move?.Invoke(_direction, _moveSpeed, _wantsToJump);
-            Rotate?.Invoke(_direction, _rotationSpeed);
-            _wantsToJump = false;
+            Move?.Invoke(_direction, _moveSpeed);
+            Rotate?.Invoke(_rotationDirection, _rotationSpeed);
             base.UpdateState();
         }
 
         public override void Exit()
         {
             _direction = Vector3.zero;
-            InputReader.OnJump -= SetJump;
-            InputReader.OnMove -= SetDir;
             base.Exit();
         }
 
-        
 
-        private void SetDir(Vector2 dirInput)
+        protected override void SetDir(Vector2 dirInput)
         {
-            _direction = new Vector3(dirInput.x, 0, dirInput.y);
+            _direction = new Vector3(dirInput.x, DOWNWARD_FORCE, dirInput.y);
+            
+            _rotationDirection.y = 0;
         }
-        private void SetJump()
+
+        protected override void SetRotation(Vector2 dirInput)
         {
-            _wantsToJump = true;
+            _rotationDirection = new Vector3(dirInput.x, 0, dirInput.y);
         }
+
+        protected override void SetJump()
+        {
+            Jump(_jumpForce);
+        }
+
     }
 }

@@ -12,6 +12,9 @@ namespace MovingPerson
 
         private CharacterController _charContoroller;
 
+        private bool _wantsToJump = false;
+        private float _jumpForce =0;
+
         private void Awake()
         {
             _moveEventsHandler = GetComponent<IMoveHandler>();
@@ -21,10 +24,19 @@ namespace MovingPerson
           
         }
 
+        private void Update()
+        {
+            _wantsToJump = false;
+        }
 
-        private void Move(Vector3 direction, float speed, bool isJumping = false)
+        private void Move(Vector3 direction, float speed)
         {
             _charContoroller.Move(speed * Time.deltaTime * direction);
+
+            if (_wantsToJump)
+            {
+                Jump();
+            }
         }
 
         private void Rotate(Vector3 direction, float turnSpeed)
@@ -38,10 +50,22 @@ namespace MovingPerson
             }
         }
 
+        private void SetJump(float jumpForce)
+        {
+            _wantsToJump = true; 
+            _jumpForce = jumpForce;
+        }
+
+        private void Jump()
+        {
+
+        }
+
         private void OnEnable()
         {
             _moveEventsHandler.OnMoveEvent += Move;
             _moveEventsHandler.OnRotationEvent += Rotate;
+            _moveEventsHandler.OnJumpEvent += SetJump;
         }
         private void OnDisable()
         {

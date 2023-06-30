@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Character Stats
   m_EditorClassIdentifier: 
   <MaxSpeed>k__BackingField: 5
-  <RotationSpeed>k__BackingField: 0.9
+  <AirMaxSpeedMultiplier>k__BackingField: 0.5
+  <RotationSpeed>k__BackingField: 0.499

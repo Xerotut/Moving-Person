@@ -17,9 +17,12 @@ namespace MovingPerson
 
 
 
-            State _normalState = new NormalState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.Stats.MaxSpeed, character.Stats.RotationSpeed);
+            State _normalState = new NormalState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent, 
+                character.Stats.MaxSpeed, character.Stats.RotationSpeed, character.Stats.JumpForce);
+
+            State _airborneState = new AirborneState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent,
+                character.Stats.MaxSpeed * character.Stats.AirMaxSpeedMultiplier, character.Stats.RotationSpeed, character.Stats.JumpForce, character.Stats.Gravity);
             State _aimingState = new AimingState();
-            State _airborneState = new AirborneState();
 
             Init(_normalState, new Dictionary<State, Dictionary<Transition, State>>()
             {
