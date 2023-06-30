@@ -19,7 +19,12 @@ namespace MovingPerson
         }
 
 
-
+        public override void UpdateState()
+        {
+            Move?.Invoke(_moveDirection, _moveSpeed);
+            Rotate?.Invoke(_rotationDirection, _rotationSpeed);
+            base.UpdateState();
+        }
         protected override void SetDir(Vector2 dirInput)
         {
             _moveDirection = new Vector3(dirInput.x, 0, dirInput.y);

@@ -20,30 +20,38 @@ namespace MovingPerson
 
         private float _leftJumpForce;
 
+        private Vector2 _moveInput;
+
         public override void Enter()
         {
             base.Enter();
             _leftJumpForce = _startingJumpForce;
+            SetDir(Vector2.zero);
             Debug.Log("Entered jump State");
         }
 
         public override void UpdateState()
         {
+            base.UpdateState();
+            _moveDirection = new Vector3(_moveInput.x, _leftJumpForce, _moveInput.y);
+            Move?.Invoke(_moveDirection, _moveSpeed);
+            Rotate?.Invoke(_rotationDirection, _rotationSpeed);
             _leftJumpForce += _gravity * Time.deltaTime;
             Debug.Log(_leftJumpForce);
             if (_leftJumpForce<0) _leftJumpForce = 0;
-            base.UpdateState();
         }
 
         public override void Exit()
         {
+            Debug.Log("Exited jump state");
             _leftJumpForce = 0f;
             base.Exit();
         }
 
         protected override void SetDir(Vector2 dirInput)
         {
-            _moveDirection = new Vector3(dirInput.x, _leftJumpForce, dirInput.y);
+
+            _moveInput = new Vector3(dirInput.x, 0, dirInput.y);
         }
 
 

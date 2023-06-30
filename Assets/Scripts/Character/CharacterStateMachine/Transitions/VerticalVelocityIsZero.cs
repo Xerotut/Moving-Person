@@ -13,7 +13,7 @@ namespace MovingPerson
 
         private CharacterController _charController;
 
-        protected override bool CheckConditionUpdate() => _charController.velocity.y < 0;
+        protected override bool CheckConditionUpdate() => _charController.velocity.y <= 0;
 
     }
 }

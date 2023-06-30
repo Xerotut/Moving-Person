@@ -19,8 +19,8 @@ namespace MovingPerson
 
             Transition normalToAirborne = new LeftGround(character);
             Transition airborneToNormal = new LandedOnGround(character);
-            Transition jumpToAirborne = new VerticalVelocityIsZero(characterController);
             Transition normalToJump = new JumpButtonPressed();
+            Transition jumpToAirborne = new VerticalVelocityIsZero(characterController);
 
 
             State normalState = new NormalState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent, 
@@ -33,9 +33,9 @@ namespace MovingPerson
 
             Init(normalState, new Dictionary<State, Dictionary<Transition, State>>()
             {
+                { jumpState,  new Dictionary<Transition, State> { { jumpToAirborne  , airborneState } } },
                 { normalState, new Dictionary<Transition, State> { { normalToAirborne , airborneState }, { normalToJump, jumpState } } },
                 { airborneState, new Dictionary<Transition, State> { { airborneToNormal , normalState } } },
-                { jumpState,  new Dictionary<Transition, State> { { jumpToAirborne  , airborneState } } }
             });
         }
 

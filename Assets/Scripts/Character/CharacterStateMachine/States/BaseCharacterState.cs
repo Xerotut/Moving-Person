@@ -31,14 +31,6 @@ namespace MovingPerson
         }
 
       
-
-        public override void UpdateState()
-        {
-            Move?.Invoke(_moveDirection, _moveSpeed);
-            Rotate?.Invoke(_rotationDirection, _rotationSpeed);
-            base.UpdateState();
-        }
-
      
 
         protected abstract void SetDir(Vector2 dirInput);
