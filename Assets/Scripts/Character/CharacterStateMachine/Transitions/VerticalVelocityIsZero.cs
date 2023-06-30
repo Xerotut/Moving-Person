@@ -6,14 +6,14 @@ namespace MovingPerson
 {
     public class VerticalVelocityIsZero : Transition
     {
-        public VerticalVelocityIsZero(CharacterController charController)
+        public VerticalVelocityIsZero(Rigidbody charRB)
         {
-            _charController = charController;
+            _charRB = charRB;
         }
 
-        private CharacterController _charController;
+        private Rigidbody _charRB;
 
-        protected override bool CheckConditionUpdate() => _charController.velocity.y <= 0;
+        protected override bool CheckConditionUpdate() => _charRB.velocity.y < 0;
 
     }
 }

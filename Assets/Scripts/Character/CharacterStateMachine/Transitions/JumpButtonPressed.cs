@@ -11,7 +11,6 @@ namespace MovingPerson
 
         private void SetJump()
         {
-            Debug.Log("halo");
             _jumpRequested = true;
         }
 

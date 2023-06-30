@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,28 +15,35 @@ namespace MovingPerson
 
             Character character = GetComponent<Character>();
 
-            CharacterController characterController = GetComponent<CharacterController>();
+            Rigidbody charRB = GetComponent<Rigidbody>();
 
 
+            Transition jumpToAirborne = new VerticalVelocityIsZero(charRB);
             Transition normalToAirborne = new LeftGround(character);
             Transition airborneToNormal = new LandedOnGround(character);
             Transition normalToJump = new JumpButtonPressed();
-            Transition jumpToAirborne = new VerticalVelocityIsZero(characterController);
+            Transition normalToAim = new StartedAiming(character);
+            Transition aimToNormal = new StopedAiming(character);
+            Transition aimToAirborne = new LeftGround(character);
+            Transition aimToJump = new JumpButtonPressed();
 
 
-            State normalState = new NormalState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent, 
+
+            BaseCharacterState normalState = new NormalState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseAimEvent,
                 character.Stats.MaxSpeed, character.Stats.RotationSpeed);
-
-            State airborneState = new AirborneState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent,
+            BaseCharacterState airborneState = new AirborneState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseAimEvent,
                 character.Stats.MaxSpeed * character.Stats.AirMaxSpeedMultiplier, character.Stats.RotationSpeed);
-            State jumpState = new JumpState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseJumpEvent,
-                character.Stats.MaxSpeed * character.Stats.AirMaxSpeedMultiplier, character.Stats.RotationSpeed, character.Stats.JumpForce, character.Stats.Gravity);
+            BaseCharacterState jumpState = new JumpState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseAimEvent,
+                character.Stats.MaxSpeed * character.Stats.AirMaxSpeedMultiplier, character.Stats.RotationSpeed, character.Stats.JumpForce, character.RaiseJumpEvent);
+            BaseCharacterState aimState = new AimingState(character.RaiseMoveEvent, character.RaiseRotationEvent, character.RaiseAimEvent,
+                character.Stats.MaxSpeed * character.Stats.AimingMaxSpeedMultiplier, character.Stats.RotationSpeed);
 
-            Init(normalState, new Dictionary<State, Dictionary<Transition, State>>()
+            Init(normalState, new Dictionary<BaseCharacterState, Dictionary<Transition, BaseCharacterState>>()
             {
-                { jumpState,  new Dictionary<Transition, State> { { jumpToAirborne  , airborneState } } },
-                { normalState, new Dictionary<Transition, State> { { normalToAirborne , airborneState }, { normalToJump, jumpState } } },
-                { airborneState, new Dictionary<Transition, State> { { airborneToNormal , normalState } } },
+                { normalState, new Dictionary<Transition, BaseCharacterState> { { normalToJump, jumpState }, { normalToAirborne , airborneState }, {normalToAim, aimState } } },
+                { airborneState, new Dictionary<Transition, BaseCharacterState> { { airborneToNormal , normalState } } },
+                { jumpState,  new Dictionary<Transition, BaseCharacterState> { { jumpToAirborne  , airborneState } } },
+                { aimState, new Dictionary<Transition, BaseCharacterState> {  {aimToAirborne, airborneState }, {aimToNormal, normalState }, { aimToJump, jumpState}  } }
             });
         }
 

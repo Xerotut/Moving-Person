@@ -6,10 +6,10 @@ namespace MovingPerson
 {
     public class StateMachine : MonoBehaviour
     {
-        private State _currentState;
+        private BaseCharacterState _currentState;
 
 
-        protected void Init(State initialState, Dictionary<State, Dictionary<Transition, State>> states)
+        protected void Init(BaseCharacterState initialState, Dictionary<BaseCharacterState, Dictionary<Transition, BaseCharacterState>> states)
         {
             foreach (var state in states)
             {
@@ -26,7 +26,7 @@ namespace MovingPerson
         private void Update() => _currentState?.UpdateState();
         private void FixedUpdate() => _currentState?.UpdateStatePhysics();
 
-        private void ChangeState(State newState)
+        private void ChangeState(BaseCharacterState newState)
         {
             _currentState?.Exit();
             _currentState = newState;
