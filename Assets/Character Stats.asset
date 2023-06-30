@@ -15,5 +15,5 @@ MonoBehaviour:
   <MaxSpeed>k__BackingField: 2
   <RotationSpeed>k__BackingField: 0.499
   <AirMaxSpeedMultiplier>k__BackingField: 0.5
-  <JumpForce>k__BackingField: 25
+  <JumpForce>k__BackingField: 10
   <Gravity>k__BackingField: -9

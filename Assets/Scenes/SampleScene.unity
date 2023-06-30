@@ -1041,8 +1041,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2042853460}
   - component: {fileID: 2042853458}
-  - component: {fileID: 2042853457}
-  - component: {fileID: 2042853459}
   - component: {fileID: 2042853462}
   - component: {fileID: 2042853463}
   - component: {fileID: 2042853461}
@@ -1053,24 +1051,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!143 &2042853457
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2042853456}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.19
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.02
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &2042853458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1085,18 +1065,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Stats>k__BackingField: {fileID: 11400000, guid: 746a66009c37f1a4caade40f5de89cbc,
     type: 2}
---- !u!114 &2042853459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2042853456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82c60c13b8bc6a6459ae8f2c072a99a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &2042853460
 Transform:
   m_ObjectHideFlags: 0
@@ -1156,7 +1124,7 @@ MonoBehaviour:
   _moveInputMagnitudeName: Input Magnitude
   _isGroundedName: IsGrounded
   _verticalVelocityName: Vertical Velocity
-  _characterController: {fileID: 2042853457}
+  _characterController: {fileID: 0}
 --- !u!1 &2125377350
 GameObject:
   m_ObjectHideFlags: 0
