@@ -4,43 +4,33 @@ using UnityEngine;
 
 namespace MovingPerson
 {
-   
-    [RequireComponent(typeof(CharacterController))]
-    public class CharacterMovement : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody))]
+    public class CharacterMovementRB : MonoBehaviour
     {
         private IMoveHandler _moveEventsHandler;
-        
-        
-
-        private CharacterController _charContoroller;
 
 
-        private float _gravity;
+
+        private Rigidbody _charRB;
+
+
 
         private void Awake()
         {
             _moveEventsHandler = GetComponent<IMoveHandler>();
 
-            _charContoroller = GetComponent<CharacterController>();
+            _charRB = GetComponent<Rigidbody>();
 
-          
+
         }
 
-        private void Update()
-        {
-        }
+       
 
         private void Move(Vector3 direction, float speed)
         {
-            
-            Vector3 moveSpeed = new Vector3(speed * direction.x, direction.y, speed * direction.z);
-            if (moveSpeed.y == 0)
-            {
-                moveSpeed.y = _gravity;
-            }
+            Vector3 newVelocity = new Vector3(speed * direction.x, _charRB.velocity.y, speed * direction.z);
+            _charRB.velocity = newVelocity;
 
-           
-            _charContoroller.Move(moveSpeed * Time.deltaTime);
         }
 
         private void Rotate(Vector3 direction, float turnSpeed)
@@ -54,18 +44,24 @@ namespace MovingPerson
             }
         }
 
-      
 
-       
+        private void Jump(float jumpForce)
+        {
+            Vector3 jumpDir = new Vector3(0, jumpForce, 0);
+            _charRB.AddForce(jumpDir, ForceMode.Impulse);
+        }
+
         private void OnEnable()
         {
             _moveEventsHandler.OnMoveEvent += Move;
             _moveEventsHandler.OnRotationEvent += Rotate;
+            _moveEventsHandler.OnJumpEvent += Jump;
         }
         private void OnDisable()
         {
             _moveEventsHandler.OnMoveEvent -= Move;
             _moveEventsHandler.OnRotationEvent -= Rotate;
+            _moveEventsHandler.OnJumpEvent -= Jump;
         }
     }
 }

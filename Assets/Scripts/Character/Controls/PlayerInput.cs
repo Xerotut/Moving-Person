@@ -35,6 +35,14 @@ namespace MovingPerson
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Button"",
+                    ""id"": ""42d3d8de-6e1d-42c0-9724-b542bafddd55"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -114,6 +122,17 @@ namespace MovingPerson
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0eb7f565-b91a-4157-a67d-54fd8803eec4"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -124,6 +143,7 @@ namespace MovingPerson
             m_CharControls = asset.FindActionMap("CharControls", throwIfNotFound: true);
             m_CharControls_Move = m_CharControls.FindAction("Move", throwIfNotFound: true);
             m_CharControls_Jump = m_CharControls.FindAction("Jump", throwIfNotFound: true);
+            m_CharControls_Aim = m_CharControls.FindAction("Aim", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -175,12 +195,14 @@ namespace MovingPerson
         private ICharControlsActions m_CharControlsActionsCallbackInterface;
         private readonly InputAction m_CharControls_Move;
         private readonly InputAction m_CharControls_Jump;
+        private readonly InputAction m_CharControls_Aim;
         public struct CharControlsActions
         {
             private @PlayerInput m_Wrapper;
             public CharControlsActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_CharControls_Move;
             public InputAction @Jump => m_Wrapper.m_CharControls_Jump;
+            public InputAction @Aim => m_Wrapper.m_CharControls_Aim;
             public InputActionMap Get() { return m_Wrapper.m_CharControls; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -196,6 +218,9 @@ namespace MovingPerson
                     @Jump.started -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnJump;
                     @Jump.performed -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnJump;
                     @Jump.canceled -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnJump;
+                    @Aim.started -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnAim;
+                    @Aim.performed -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnAim;
+                    @Aim.canceled -= m_Wrapper.m_CharControlsActionsCallbackInterface.OnAim;
                 }
                 m_Wrapper.m_CharControlsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -206,6 +231,9 @@ namespace MovingPerson
                     @Jump.started += instance.OnJump;
                     @Jump.performed += instance.OnJump;
                     @Jump.canceled += instance.OnJump;
+                    @Aim.started += instance.OnAim;
+                    @Aim.performed += instance.OnAim;
+                    @Aim.canceled += instance.OnAim;
                 }
             }
         }
@@ -214,6 +242,7 @@ namespace MovingPerson
         {
             void OnMove(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
+            void OnAim(InputAction.CallbackContext context);
         }
     }
 }

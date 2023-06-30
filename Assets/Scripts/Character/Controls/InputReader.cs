@@ -12,6 +12,8 @@ namespace MovingPerson
 
         public static event Action<Vector2> OnMove;
         public static event Action OnJump;
+        public static event Action<bool> OnAim;
+
 
         static InputReader()
         {
@@ -30,6 +32,9 @@ namespace MovingPerson
             _playerInput.CharControls.Move.canceled += ctx => OnMove?.Invoke(Vector2.zero);
 
             _playerInput.CharControls.Jump.performed += ctx => OnJump?.Invoke();
+
+            _playerInput.CharControls.Aim.performed += ctx => OnAim?.Invoke(true);
+            _playerInput.CharControls.Aim.canceled += ctx => OnAim?.Invoke(false);
 
         }
 

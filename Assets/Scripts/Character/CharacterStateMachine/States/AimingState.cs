@@ -1,21 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace MovingPerson
 {
-    public class AimingState : State
+    public class AimingState : BaseCharacterState
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-        
-        }
+        public AimingState(Action<Vector3, float> HandleMoveEvent, Action<Vector3, float> HandleRotationEvent, Action<bool> HandleAimEvent,
+            float moveSpeed, float rotationSpeed) : base(HandleMoveEvent, HandleRotationEvent, HandleAimEvent, moveSpeed, rotationSpeed) { }
 
-        // Update is called once per frame
-        void Update()
-        {
-        
-        }
+
     }
 }

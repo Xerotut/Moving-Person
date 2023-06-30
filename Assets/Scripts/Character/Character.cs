@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace MovingPerson
 {
-    public class Character : MonoBehaviour, IMoveHandler, IGroundedHandler, IStats
+    public class Character : MonoBehaviour, IMoveHandler, IGroundedHandler, IWeaponHandler
     {
 
         [field: SerializeField] public CharacterStats Stats { get; private set; }
@@ -15,13 +15,9 @@ namespace MovingPerson
         public event Action<float> OnJumpEvent;
 
         public event Action<bool> OnGroundedCheck;
+        public event Action<bool> OnAim;
 
-
-        private void Awake()
-        {
-            //OnGroundedCheck += isGroundedDebug => Debug.Log(isGroundedDebug);
-        }
-
+        
 
         public void RaiseMoveEvent(Vector3 direction, float maxSpeed)
         {
@@ -42,9 +38,9 @@ namespace MovingPerson
             OnGroundedCheck?.Invoke(isGrounded);
         }
 
-        public CharacterStats GetStats()
+        public void RaiseAimEvent(bool isAiming)
         {
-            return Stats;
+            OnAim?.Invoke(isAiming);
         }
     }
 }
