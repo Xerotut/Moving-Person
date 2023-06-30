@@ -7,9 +7,10 @@ namespace MovingPerson
 {
     public abstract class Transition
     {
+        //This us used to change current state when the transition requirements are met.
         public Action Callback;
 
-
+        //These are two methods that check whether or not the transition requirements are met. 
         protected virtual bool CheckConditionUpdate() => true;
         protected virtual bool CheckConditionFixedUpdate() => true;
         private bool _physicsCheck;
