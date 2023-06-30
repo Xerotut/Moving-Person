@@ -10,18 +10,26 @@ namespace MovingPerson
 
 
         [SerializeField] private string _moveInputMagnitudeName = "InputMagnitude";
+        [SerializeField] private string _isGroundedName = "IsGrounded";
+        [SerializeField] private string _verticalVelocityName = "Vertical Velocity";
+
+
+        [SerializeField]private CharacterController _characterController;
 
         private Vector2 _moveInput;
 
-        private void Awake()
-        {
-            
-        }
+       
 
         private void Update()
         {
             float inputMagnitude = Mathf.Clamp01(_moveInput.magnitude);
             _animator.SetFloat(_moveInputMagnitudeName, inputMagnitude);
+            
+            float verticalVelocity = _characterController.velocity.y;
+            _animator.SetFloat(_verticalVelocityName, verticalVelocity);
+
+
+            _animator.SetBool(_isGroundedName, _characterController.isGrounded);
         }
 
         

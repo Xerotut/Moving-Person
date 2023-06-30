@@ -9,15 +9,19 @@ namespace MovingPerson
     public class CharacterMovement : MonoBehaviour
     {
         private IMoveHandler _moveEventsHandler;
+        
+        
 
         private CharacterController _charContoroller;
 
-        private bool _wantsToJump = false;
-        private float _jumpForce =0;
+
+        private float _gravity;
 
         private void Awake()
         {
             _moveEventsHandler = GetComponent<IMoveHandler>();
+            IStats statsHandler  = GetComponent<IStats>();
+            _gravity = statsHandler.GetStats().Gravity;
 
             _charContoroller = GetComponent<CharacterController>();
 
@@ -26,17 +30,19 @@ namespace MovingPerson
 
         private void Update()
         {
-            _wantsToJump = false;
         }
 
         private void Move(Vector3 direction, float speed)
         {
-            _charContoroller.Move(speed * Time.deltaTime * direction);
-
-            if (_wantsToJump)
+            
+            Vector3 moveSpeed = new Vector3(speed * direction.x, direction.y, speed * direction.z);
+            if (moveSpeed.y == 0)
             {
-                Jump();
+                moveSpeed.y = _gravity;
             }
+
+           
+            _charContoroller.Move(moveSpeed * Time.deltaTime);
         }
 
         private void Rotate(Vector3 direction, float turnSpeed)
@@ -50,22 +56,13 @@ namespace MovingPerson
             }
         }
 
-        private void SetJump(float jumpForce)
-        {
-            _wantsToJump = true; 
-            _jumpForce = jumpForce;
-        }
+      
 
-        private void Jump()
-        {
-
-        }
-
+       
         private void OnEnable()
         {
             _moveEventsHandler.OnMoveEvent += Move;
             _moveEventsHandler.OnRotationEvent += Rotate;
-            _moveEventsHandler.OnJumpEvent += SetJump;
         }
         private void OnDisable()
         {

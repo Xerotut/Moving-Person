@@ -4,10 +4,18 @@ using UnityEngine;
 
 namespace MovingPerson
 {
-    public class LeftGround : Transition
+    public class JumpButtonPressed : Transition
     {
 
-        private bool _isGrounded;
+        private bool _jumpRequested;
+
+        private void SetJump()
+        {
+            Debug.Log("halo");
+            _jumpRequested = true;
+        }
+
+        protected override bool CheckConditionUpdate() => _jumpRequested;
 
         public override void Enter()
         {
@@ -18,15 +26,8 @@ namespace MovingPerson
         public override void Exit()
         {
             InputReader.OnJump -= SetJump;
+            _jumpRequested = false;
             base.Exit();
         }
-        public void SetJump()
-        {
-        }
-
-        //protected override bool CheckConditionUpdate()
-        //{
-        //}
-
     }
 }

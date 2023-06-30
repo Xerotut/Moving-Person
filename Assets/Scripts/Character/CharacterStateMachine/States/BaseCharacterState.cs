@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GridBrushBase;
 
 namespace MovingPerson
 {
@@ -12,40 +13,36 @@ namespace MovingPerson
         protected readonly Action<float> Jump;
         protected readonly float _moveSpeed;
         protected readonly float _rotationSpeed;
-        protected readonly float _jumpForce;
+
+        protected Vector3 _moveDirection;
+        protected Vector3 _rotationDirection;
 
 
         public BaseCharacterState(Action<Vector3, float> HandleMoveEvent, Action<Vector3, float> HandleRotationEvent, 
-            Action<float> HandleJumpEvent, float moveSpeed, float rotationSpeed, float jumpForce)
+            Action<float> HandleJumpEvent, float moveSpeed, float rotationSpeed)
         {
             Move += HandleMoveEvent;
             Rotate += HandleRotationEvent;
             Jump += HandleJumpEvent;
             _moveSpeed = moveSpeed;
             _rotationSpeed = rotationSpeed;
-            _jumpForce = jumpForce;
-        }
-
-        public override void Enter()
-        {
-            base.Enter();
             InputReader.OnMove += SetDir;
             InputReader.OnMove += SetRotation;
-            InputReader.OnJump += SetJump;
         }
 
+      
 
-        public override void Exit()
+        public override void UpdateState()
         {
-            InputReader.OnJump -= SetJump;
-            InputReader.OnMove -= SetRotation;
-            InputReader.OnMove -= SetDir;
-            base.Exit();
+            Move?.Invoke(_moveDirection, _moveSpeed);
+            Rotate?.Invoke(_rotationDirection, _rotationSpeed);
+            base.UpdateState();
         }
+
+     
 
         protected abstract void SetDir(Vector2 dirInput);
         protected abstract void SetRotation(Vector2 dirInput);
-        protected abstract void SetJump();
 
     }
 }

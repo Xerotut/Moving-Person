@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aa66e1583c35264d8c2ee3d6d45618c, type: 3}
   m_Name: Character Stats
   m_EditorClassIdentifier: 
-  <MaxSpeed>k__BackingField: 5
-  <AirMaxSpeedMultiplier>k__BackingField: 0.5
+  <MaxSpeed>k__BackingField: 2
   <RotationSpeed>k__BackingField: 0.499
+  <AirMaxSpeedMultiplier>k__BackingField: 0.5
+  <JumpForce>k__BackingField: 25
+  <Gravity>k__BackingField: -9
